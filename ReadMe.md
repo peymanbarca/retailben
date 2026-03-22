@@ -20,7 +20,7 @@
 All microservices are implemented using FastAPI, with RESTful APIs for synchronous communication via decentralized choreography.
 The system uses NoSQL databases (e.g., MongoDB).
 
-### Reciliency Patterns:
+### Resiliency Patterns:
 1. **Circuit Breaker**: To prevent cascading failures when a service is down or experiencing
 2. **Retry Mechanism**: To handle transient failures by retrying failed requests with exponential backoff.
 3. **Bulkhead Isolation**: To isolate critical services and prevent resource exhaustion.
