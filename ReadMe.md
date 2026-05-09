@@ -14,7 +14,8 @@
 6. **Product Search Service**: Provides search functionality for products, including filtering and sorting options.
 7. **Pricing Service**: Provides dynamic pricing based on demand, coupons, and competitor pricing.
 8. **Shopping Cart Service**: Maintains the shopping cart for customers, allowing them to add, remove, and view items before checkout.
-9. **Notification Service**: Informs customers about order status, promotions, and other relevant updates via email or SMS.
+9. **Notification Service**: Informs customers about order status, promotions, and other relevant updates via email external mock serivce.
+10. 9. **Subscription Service**: View promotion code subscriptions, buy them, and retrieve current active subscription promo codes for cart and order services.
 
 ### Implementation:
 All microservices are implemented using FastAPI, with RESTful APIs for synchronous communication via decentralized choreography.
