@@ -2,7 +2,7 @@
 
 ## A Microservice System Benchmark for Retail Supply Chain Management:
 
-![alt text](figures/agnetification-ranking-RetailBen.png)
+![alt text](figures/RetailBen.drawio.png)
 
 
 ### Core Services:

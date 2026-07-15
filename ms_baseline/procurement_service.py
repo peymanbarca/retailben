@@ -13,7 +13,7 @@ import datetime
 
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-MONGO_DB = os.getenv("MONGO_DB", "ms_baseline")
+MONGO_DB = os.getenv("MONGO_DB", "retailben")
 SUPPLIER_URL = os.getenv("SUPPLIER_URL", "http://localhost:9010/supplier/order")
 PORT = int(os.getenv("PORT", 8009))
 
@@ -25,7 +25,7 @@ http_client: httpx.AsyncClient = None
 
 logger = logging.getLogger("procurement")
 logging.basicConfig(
-    filename='logs/procurement_service.log',
+    filename='./logs/procurement_service.log',
     level=logging.INFO,  # Log all messages with severity DEBUG or higher
     format='%(asctime)s - %(levelname)s - %(message)s'  # Define the message format
 )
@@ -65,6 +65,15 @@ async def order_from_supplier(req: SupplierOrderRequest):
     payload = {"sku": req.sku, "qty": req.qty}
     if req.preferred_supplier:
         payload["supplier"] = req.preferred_supplier
+    else:
+        # todo: implement supplier selection logic
+        if req.sku.startswith("A"):
+            payload["supplier"] = "supplier_a"
+        elif req.sku.startswith("B"):
+            payload["supplier"] = "supplier_b"
+        else:
+             payload["supplier"] = "default_supplier" 
+        
     try:
         # simulate order from external supplier service
         time.sleep(0.2)
@@ -82,7 +91,7 @@ async def order_from_supplier(req: SupplierOrderRequest):
             "eta_days": 2,
             "created_at": datetime.datetime.utcnow()
         }
-        await db.proc_orders.insert_one(doc)
+        await db.procurement_orders.insert_one(doc)
         result = SupplierOrderResponse(supplier_order_id=supplier_order_id, status=doc["status"], eta_days=doc["eta_days"])
         logger.info(f"Request for order_from_supplier successfully processed, result: {result}, request: {req}")
 
@@ -92,5 +101,6 @@ async def order_from_supplier(req: SupplierOrderRequest):
         # store a failed entry
         order_id = str(uuid.uuid4())
         doc = {"supplier_order_id": order_id, "product_id": req.product_id, "qty": req.qty, "status": "FAILED"}
-        await db.proc_orders.insert_one(doc)
+        await db.procurement_orders.insert_one(doc)
         raise HTTPException(status_code=502, detail="Supplier unavailable")
+
