@@ -9,7 +9,7 @@ import httpx
 import logging
 
 app = FastAPI()
-ORDER_COLL = MongoClient("mongodb://localhost:27017/")["retailben"]["orders"]
+ORDER_COLL = MongoClient("mongodb://user:pass1@localhost:27017/")["retailben"]["orders"]
 INVENTORY_SERVICE_RESERVE_URL = "http://127.0.0.1:8001/reserve"
 INVENTORY_SERVICE_RESERVE_ROLLBACK_URL = "http://127.0.0.1:8001/reserve-rollback"
 CART_SERVICE_URL = "http://127.0.0.1:8003/cart/"
